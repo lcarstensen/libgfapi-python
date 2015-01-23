@@ -21,10 +21,20 @@ from ctypes.util import find_library
 
 # Looks like ctypes is having trouble with dependencies, so just force them to
 # load with RTLD_GLOBAL until I figure that out.
-client = ctypes.CDLL(find_library("gfapi"), ctypes.RTLD_GLOBAL, use_errno=True)
+#client = ctypes.CDLL(find_library("gfapi"), ctypes.RTLD_GLOBAL, use_errno=True)
 # The above statement "may" fail with OSError on some systems if libgfapi.so
 # is located in /usr/local/lib/. This happens when glusterfs is installed from
 # source. Refer to: http://bugs.python.org/issue18502
+
+# Force loading in OpenShift environment
+# Can't rely upon find_library because it doesn't follow LD_LIBRARY_PATH
+# http://bugs.python.org/issue9998
+import os
+opath = os.environ['OPENSHIFT_REPO_DIR'] + "usr/lib64/"
+glfs = ctypes.CDLL(opath  + "libglusterfs.so.0", ctypes.RTLD_GLOBAL, use_errno=True)
+xdr = ctypes.CDLL(opath + "libgfxdr.so.0", ctypes.RTLD_GLOBAL, use_errno=True)
+rpc = ctypes.CDLL(opath + "libgfrpc.so.0", ctypes.RTLD_GLOBAL, use_errno=True)
+client = ctypes.CDLL(opath + "libgfapi.so.0", ctypes.RTLD_GLOBAL, use_errno=True)
 
 # Wow, the Linux kernel folks really play nasty games with this structure.  If
 # you look at the man page for stat(2) and then at this definition you'll note
