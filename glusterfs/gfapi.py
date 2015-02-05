@@ -193,6 +193,12 @@ class Volume(object):
     def set_logging(self, path, level):
         api.glfs_set_logging(self.fs, path, level)
 
+    def setfsuid(self, uid):
+        api.glfs_setfsuid(uid)
+
+    def setfsgid(self, gid):
+        api.glfs_setfsgid(gid)
+
     def mount(self):
         return api.glfs_init(self.fs)
 

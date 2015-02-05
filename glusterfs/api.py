@@ -113,7 +113,6 @@ glfs_set_logging = ctypes.CFUNCTYPE(ctypes.c_int,
 glfs_fini = ctypes.CFUNCTYPE(
     ctypes.c_int, ctypes.c_void_p)(('glfs_fini', client))
 
-
 glfs_close = ctypes.CFUNCTYPE(
     ctypes.c_int, ctypes.c_void_p)(('glfs_close', client))
 
@@ -222,6 +221,12 @@ glfs_opendir = ctypes.CFUNCTYPE(ctypes.c_void_p,
 glfs_rmdir = ctypes.CFUNCTYPE(ctypes.c_int,
                               ctypes.c_void_p,
                               ctypes.c_char_p)(('glfs_rmdir', client))
+
+glfs_setfsuid = ctypes.CFUNCTYPE(
+    ctypes.c_int, ctypes.c_int)(('glfs_setfsuid',client))
+
+glfs_setfsgid = ctypes.CFUNCTYPE(
+    ctypes.c_int, ctypes.c_int)(('glfs_setfsgid',client))
 
 
 # TODO: creat and open fails on test_create_file_already_exists & test_open_file_not_exist functional testing, # noqa
